@@ -1,19 +1,20 @@
 from pathlib import Path
 import PySimpleGUI as sg
-
+import io, os
+from PIL import Image
 
 def main_window():
     menu_def = [
-      ["  Arquivo  ", [sg.FileBrowse(),"Salvar","Sobre","Sair"]],
+      ["  Arquivo  ", ["Abrir","Salvar","Sobre","Sair"]],
       ["  Transformações Geométricas  ",["Transladar","Rotacionar","Espelhar","Aumentar","Diminuir"]],
       ["  Filtros  ",["Grayscale","Passa Baixa","Passa Alta","Threshould"]],
       ["  Morfologia Matemática  ",["Dilatação", "Erosão", "Abertura", "Fechamento"]],
       ["  Extração De Características  ",["Desafio"]]
     ]
 
-    frame_img_original = [[sg.Image(filename="teste.png")]]
+    frame_img_original = [[sg.Image(key="-IMG-")]]
 
-    frame_img_edited = [[sg.Image(filename="teste.png")]]
+    frame_img_edited = [[sg.Image(key="-NEW_IMG-")]]
 
     layout = [
       [sg.MenubarCustom(menu_def, tearoff = False, key="-MENU-")],
@@ -23,13 +24,20 @@ def main_window():
 
     window_title = settings["GUI"]["title"]
     window = sg.Window(window_title, layout, use_custom_titlebar = True, element_justification='c').Finalize()
-    #window.Maximize()
+    # window.Maximize()
 
-    window.read()
     while True:
         event, values = window.read()
-        if event in ( sg.WINDOW_CLOSED, "Exit"):
+        if event in ('Sair'):
             break
+        if event == 'Abrir':
+            filename = sg.PopupGetFile('', no_window = True)
+            if os.path.exists(filename):
+              image = Image.open(filename)
+              bio = io.BytesIO()
+              image.save(bio, format="PNG")
+              window["-IMG-"].update(data=bio.getvalue())
+              window["-NEW_IMG-"].update(data=bio.getvalue())
         print(event, values)
     window.close()
 
