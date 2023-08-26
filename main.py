@@ -2,6 +2,8 @@ from pathlib import Path
 import PySimpleGUI as sg
 import io, os
 from PIL import Image
+def error_window(message):
+    sg.Popup(message, title='Erro', auto_close=True, custom_text='Fechar', any_key_closes=True)
 
 def main_window():
     menu_def = [
