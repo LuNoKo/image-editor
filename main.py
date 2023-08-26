@@ -2,10 +2,14 @@ from pathlib import Path
 import PySimpleGUI as sg
 import io, os
 from PIL import Image
+from numpy import asarray
+
 def error_window(message):
     sg.Popup(message, title='Erro', auto_close=True, custom_text='Fechar', any_key_closes=True)
 
 def main_window():
+    image_data = []
+
     menu_def = [
       ["  Arquivo  ", ["Abrir","Salvar","Sobre","Sair"]],
       ["  Transformações Geométricas  ",["Translação","Rotação","Espelhamento","Ampliação","Redução"]],
@@ -36,10 +40,17 @@ def main_window():
             filename = sg.PopupGetFile('', no_window = True)
             if os.path.exists(filename):
               image = Image.open(filename)
+              image_data = asarray(image)
               bio = io.BytesIO()
               image.save(bio, format="PNG")
               window["-IMG-"].update(data=bio.getvalue())
               window["-NEW_IMG-"].update(data=bio.getvalue())
+        if event == 'Salvar':
+            if not image_data: 
+              error_window('Não existe imagem a ser salva') 
+            else:
+              filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),))
+              Image.fromarray(image_data).save(filename, format="PNG")
         print(event, values)
     window.close()
 
