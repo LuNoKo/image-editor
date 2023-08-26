@@ -6,7 +6,7 @@ from PIL import Image
 def main_window():
     menu_def = [
       ["  Arquivo  ", ["Abrir","Salvar","Sobre","Sair"]],
-      ["  Transformações Geométricas  ",["Transladar","Rotacionar","Espelhar","Aumentar","Diminuir"]],
+      ["  Transformações Geométricas  ",["Translação","Rotação","Espelhamento","Ampliação","Redução"]],
       ["  Filtros  ",["Grayscale","Passa Baixa","Passa Alta","Threshould"]],
       ["  Morfologia Matemática  ",["Dilatação", "Erosão", "Abertura", "Fechamento"]],
       ["  Extração De Características  ",["Desafio"]]
