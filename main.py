@@ -4,32 +4,52 @@ import io, os
 from PIL import Image
 from numpy import asarray
 
-def error_window(message):
+def errorWindow(message):
     sg.Popup(message, title='Erro', auto_close=True, custom_text='Fechar', any_key_closes=True)
 
-def main_window():
-    image_data = []
+def updateOriginalImage(window, imageData):
+    bio = io.BytesIO()
+    Image.fromarray(imageData).save(bio, format="PNG") 
+    window["-IMG-"].update(data=bio.getvalue())
 
-    menu_def = [
+def updateEditedImage(window, imageData):
+    bio = io.BytesIO()
+    Image.fromarray(imageData).save(bio, format="PNG") 
+    window["-EDITED_IMG-"].update(data=bio.getvalue())
+
+def open(window):
+    filename = sg.PopupGetFile('', no_window = True)
+    if os.path.exists(filename):
+      imageData = asarray(Image.open(filename))
+      updateOriginalImage(window, imageData)
+      updateEditedImage(window, imageData)
+      return imageData
+
+def save(imageData):
+    if not len(imageData) > 0:
+      errorWindow('Não existe imagem a ser salva') 
+    else:
+      filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),), no_window=True)
+      Image.fromarray(imageData).save(filename, format="PNG")  
+
+def main_window():
+    imageData = []
+
+    menu = [
       ["  Arquivo  ", ["Abrir","Salvar","Sobre","Sair"]],
       ["  Transformações Geométricas  ",["Translação","Rotação","Espelhamento","Ampliação","Redução"]],
-      ["  Filtros  ",["Grayscale","Passa Baixa","Passa Alta","Threshould"]],
+      ["  Filtros  ",["Grayscale","Passa Baixa", ["Média", "Moda", "Mediana", "Gauss"],"Passa Alta","Threshould"]],
       ["  Morfologia Matemática  ",["Dilatação", "Erosão", "Abertura", "Fechamento"]],
       ["  Extração De Características  ",["Desafio"]]
     ]
 
-    frame_img_original = [[sg.Image(key="-IMG-")]]
-
-    frame_img_edited = [[sg.Image(key="-NEW_IMG-")]]
-
     layout = [
-      [sg.MenubarCustom(menu_def, tearoff = False, key="-MENU-")],
-      [sg.Frame('Imagem Original', frame_img_original,element_justification='c'), 
-        sg.Frame('Imagem Original', frame_img_edited, element_justification='c')],
+      [sg.MenubarCustom(menu, tearoff = False, key="-MENU-")],
+      [sg.Frame('Imagem Original', [[sg.Image(key="-IMG-")]], element_justification='c'), 
+        sg.Frame('Imagem Editada', [[sg.Image(key="-EDITED_IMG-")]], element_justification='c')],
     ]
 
-    window_title = settings["GUI"]["title"]
-    window = sg.Window(window_title, layout, use_custom_titlebar = True, element_justification='c').Finalize()
+    window = sg.Window(settings["GUI"]["title"], layout, use_custom_titlebar=True, element_justification='c').Finalize()
     # window.Maximize()
 
     while True:
@@ -37,20 +57,9 @@ def main_window():
         if event in ('Sair'):
             break
         if event == 'Abrir':
-            filename = sg.PopupGetFile('', no_window = True)
-            if os.path.exists(filename):
-              image = Image.open(filename)
-              image_data = asarray(image)
-              bio = io.BytesIO()
-              image.save(bio, format="PNG")
-              window["-IMG-"].update(data=bio.getvalue())
-              window["-NEW_IMG-"].update(data=bio.getvalue())
+            imageData = open(window)
         if event == 'Salvar':
-            if not len(image_data) > 0: 
-              error_window('Não existe imagem a ser salva') 
-            else:
-              filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),))
-              Image.fromarray(image_data).save(filename, format="PNG")
+            save(imageData)
         print(event, values)
     window.close()
 
