@@ -46,7 +46,7 @@ def main_window():
               window["-IMG-"].update(data=bio.getvalue())
               window["-NEW_IMG-"].update(data=bio.getvalue())
         if event == 'Salvar':
-            if not image_data: 
+            if not len(image_data) > 0: 
               error_window('Não existe imagem a ser salva') 
             else:
               filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),))
