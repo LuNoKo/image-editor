@@ -1,7 +1,7 @@
 from pathlib import Path
 import PySimpleGUI as sg
 import io, os
-from PIL import Image
+from PIL import Image, ImageFilter
 from numpy import asarray
 
 def errorWindow(message):
@@ -24,6 +24,22 @@ def open(window):
       updateOriginalImage(window, imageData)
       updateEditedImage(window, imageData)
       return imageData
+
+def media(window, imageData):
+    ## To Do Média ##
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.filter(ImageFilter.MedianFilter(size=5))
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageEdited)
+def mediana(window, imageData):
+    ## To Do Mediana ##
+    updateEditedImage(window, imageData)
+def moda(window, imageData):
+    ## To Do Moda ##
+    updateEditedImage(window, imageData)
+def gauss(window, imageData):
+    ## To Do Gauss ##
+    updateEditedImage(window, imageData)
 
 def save(imageData):
     if not len(imageData) > 0:
@@ -60,6 +76,14 @@ def main_window():
             imageData = open(window)
         if event == 'Salvar':
             save(imageData)
+        if event == 'Média':
+            imageData = media(window, imageData)
+        if event == 'Mediana':
+            imageData = mediana(window, imageData)
+        if event == 'Moda':
+            imageData = moda(window, imageData)
+        if event == 'Gauss':
+            imageData = gauss(window, imageData)
         print(event, values)
     window.close()
 
