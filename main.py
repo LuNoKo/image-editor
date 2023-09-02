@@ -44,11 +44,11 @@ def gauss(window, imageData):
 
 def save(imageData):
     if not len(imageData) > 0:
-      errorWindow('Não existe imagem a ser salva') 
+        errorWindow('Não existe imagem a ser salva') 
     else:
-      filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),), no_window=True)
-      if os.path.exists(filename):
-          Image.fromarray(imageData).save(filename, format="PNG")
+        filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),), no_window=True)
+        if os.path.exists(filename):
+            Image.fromarray(imageData).save(filename, format="PNG")
 
 def main_window():
     imageData = []
@@ -64,7 +64,7 @@ def main_window():
     layout = [
         [sg.MenubarCustom(menu, tearoff = False, key="-MENU-")],
         [sg.Frame('Imagem Original', [[sg.Image(key="-IMG-")]], element_justification='c'), 
-          sg.Frame('Imagem Editada', [[sg.Image(key="-EDITED_IMG-")]], element_justification='c')],
+            sg.Frame('Imagem Editada', [[sg.Image(key="-EDITED_IMG-")]], element_justification='c')],
     ]
 
     window = sg.Window(settings["GUI"]["title"], layout, use_custom_titlebar=True, element_justification='c', size=(1366,720), keep_on_top=True)
