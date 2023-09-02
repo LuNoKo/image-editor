@@ -39,8 +39,11 @@ def mediana(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 def moda(window, imageData):
-    ## To Do Moda ##
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.filter(ImageFilter.ModeFilter())
+    imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
+    return imageData
 def gauss(window, imageData):
     ## To Do Gauss ##
     updateEditedImage(window, imageData)
