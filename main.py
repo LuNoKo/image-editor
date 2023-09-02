@@ -68,7 +68,7 @@ def main_window():
     menu = [
         ["  Arquivo  ", ["Abrir", "Salvar", "Sair", "Sobre"]],
         ["  Extração De Características  ", ["Desafio"]],
-        ["  Filtros  ", ["Grayscale","Passa Alta","Passa Baixa", ["Média", "Mediana", "Moda", "Gauss"], "Threshould"]],
+        ["  Filtros  ", ["Grayscale", "Passa Alta","Passa Baixa", ["Média", "Mediana", "Moda", "Gauss"], "Threshould"]],
         ["  Morfologia Matemática  ", ["Abertura", "Dilatação", "Erosão", "Fechamento"]],
         ["  Transformações Geométricas  ", ["Ampliação", "Espelhamento", "Redução", "Rotação", "Translação"]]
     ]
