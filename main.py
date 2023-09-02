@@ -47,6 +47,7 @@ def moda(window, imageData):
 def gauss(window, imageData):
     ## To Do Gauss ##
     updateEditedImage(window, imageData)
+    return imageData
 
 def save(imageData):
     if not len(imageData) > 0:
@@ -60,11 +61,11 @@ def main_window():
     imageData = []
 
     menu = [
-        ["  Arquivo  ", ["Abrir","Salvar","Sobre","Sair"]],
-        ["  Transformações Geométricas  ",["Translação","Rotação","Espelhamento","Ampliação","Redução"]],
-        ["  Filtros  ",["Grayscale","Passa Baixa", ["Média", "Moda", "Mediana", "Gauss"],"Passa Alta","Threshould"]],
-        ["  Morfologia Matemática  ",["Dilatação", "Erosão", "Abertura", "Fechamento"]],
-        ["  Extração De Características  ",["Desafio"]]
+        ["  Arquivo  ", ["Abrir", "Salvar", "Sair", "Sobre"]],
+        ["  Extração De Características  ", ["Desafio"]],
+        ["  Filtros  ", ["Grayscale","Passa Alta","Passa Baixa", ["Média", "Mediana", "Moda", "Gauss"], "Threshould"]],
+        ["  Morfologia Matemática  ", ["Abertura", "Dilatação", "Erosão", "Fechamento"]],
+        ["  Transformações Geométricas  ", ["Ampliação", "Espelhamento", "Redução", "Rotação", "Translação"]]
     ]
 
     layout = [
