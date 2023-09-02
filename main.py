@@ -20,10 +20,10 @@ def updateEditedImage(window, imageData):
 def open(window):
     filename = sg.PopupGetFile('', no_window = True)
     if os.path.exists(filename):
-      imageData = asarray(Image.open(filename))
-      updateOriginalImage(window, imageData)
-      updateEditedImage(window, imageData)
-      return imageData
+        imageData = asarray(Image.open(filename))
+        updateOriginalImage(window, imageData)
+        updateEditedImage(window, imageData)
+        return imageData
     return []
 
 def media(window, imageData):
@@ -53,17 +53,17 @@ def main_window():
     imageData = []
 
     menu = [
-      ["  Arquivo  ", ["Abrir","Salvar","Sobre","Sair"]],
-      ["  Transformações Geométricas  ",["Translação","Rotação","Espelhamento","Ampliação","Redução"]],
-      ["  Filtros  ",["Grayscale","Passa Baixa", ["Média", "Moda", "Mediana", "Gauss"],"Passa Alta","Threshould"]],
-      ["  Morfologia Matemática  ",["Dilatação", "Erosão", "Abertura", "Fechamento"]],
-      ["  Extração De Características  ",["Desafio"]]
+        ["  Arquivo  ", ["Abrir","Salvar","Sobre","Sair"]],
+        ["  Transformações Geométricas  ",["Translação","Rotação","Espelhamento","Ampliação","Redução"]],
+        ["  Filtros  ",["Grayscale","Passa Baixa", ["Média", "Moda", "Mediana", "Gauss"],"Passa Alta","Threshould"]],
+        ["  Morfologia Matemática  ",["Dilatação", "Erosão", "Abertura", "Fechamento"]],
+        ["  Extração De Características  ",["Desafio"]]
     ]
 
     layout = [
-      [sg.MenubarCustom(menu, tearoff = False, key="-MENU-")],
-      [sg.Frame('Imagem Original', [[sg.Image(key="-IMG-")]], element_justification='c'), 
-        sg.Frame('Imagem Editada', [[sg.Image(key="-EDITED_IMG-")]], element_justification='c')],
+        [sg.MenubarCustom(menu, tearoff = False, key="-MENU-")],
+        [sg.Frame('Imagem Original', [[sg.Image(key="-IMG-")]], element_justification='c'), 
+          sg.Frame('Imagem Editada', [[sg.Image(key="-EDITED_IMG-")]], element_justification='c')],
     ]
 
     window = sg.Window(settings["GUI"]["title"], layout, use_custom_titlebar=True, element_justification='c').Finalize()
