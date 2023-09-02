@@ -27,11 +27,11 @@ def open(window):
     return []
 
 def media(window, imageData):
-    ## To Do Média ##
     imageEdited = Image.fromarray(imageData)
-    imageEdited = imageEdited.filter(ImageFilter.MedianFilter(size=5))
+    imageEdited = imageEdited.filter(ImageFilter.MedianFilter(size=3))
     imageData = asarray(imageEdited)
-    updateEditedImage(window, imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
 def mediana(window, imageData):
     ## To Do Mediana ##
     updateEditedImage(window, imageData)
@@ -47,7 +47,8 @@ def save(imageData):
       errorWindow('Não existe imagem a ser salva') 
     else:
       filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),), no_window=True)
-      Image.fromarray(imageData).save(filename, format="PNG")  
+      if os.path.exists(filename):
+          Image.fromarray(imageData).save(filename, format="PNG")
 
 def main_window():
     imageData = []
