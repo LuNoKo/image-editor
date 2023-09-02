@@ -5,7 +5,7 @@ from PIL import Image, ImageFilter
 from numpy import asarray
 
 def errorWindow(message):
-    sg.Popup(message, title='Erro', auto_close=True, custom_text='Fechar', any_key_closes=True)
+    sg.Popup(message, title='Erro', auto_close=True, custom_text='Fechar', any_key_closes=True, keep_on_top=True)
 
 def updateOriginalImage(window, imageData):
     bio = io.BytesIO()
