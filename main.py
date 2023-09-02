@@ -66,12 +66,11 @@ def main_window():
           sg.Frame('Imagem Editada', [[sg.Image(key="-EDITED_IMG-")]], element_justification='c')],
     ]
 
-    window = sg.Window(settings["GUI"]["title"], layout, use_custom_titlebar=True, element_justification='c').Finalize()
-    # window.Maximize()
+    window = sg.Window(settings["GUI"]["title"], layout, use_custom_titlebar=True, element_justification='c', size=(1366,720), keep_on_top=True)
 
     while True:
         event, values = window.read()
-        if event in ('Sair'):
+        if event in ('Sair', sg.WINDOW_CLOSED):
             break
         if event == 'Abrir':
             imageData = open(window)
@@ -88,15 +87,10 @@ def main_window():
         print(event, values)
     window.close()
 
-if __name__ == "__main__":
-    SETTINGS_PATH = Path.cwd()
-    settings = sg.UserSettings(
-      path = SETTINGS_PATH, filename = "config.ini", 
-      use_config_file = True, convert_bools_and_none = True
-    )
-    theme = settings["GUI"]["theme"]
-    font_family = settings["GUI"]["font_family"]
-    font_size = int(settings["GUI"]["font_size"])
-    sg.theme(theme)
-    sg.set_options(font = (font_family, font_size))
-    main_window()
+# Aplica estilização #
+SETTINGS_PATH = Path.cwd()
+settings = sg.UserSettings(path = SETTINGS_PATH, filename = "config.ini", use_config_file = True, convert_bools_and_none = True)
+sg.theme(settings["GUI"]["theme"])
+sg.set_options(font = (settings["GUI"]["font_family"], int(settings["GUI"]["font_size"])))
+
+main_window()
