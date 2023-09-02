@@ -45,7 +45,9 @@ def moda(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 def gauss(window, imageData):
-    ## To Do Gauss ##
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.filter(ImageFilter.GaussianBlur)
+    imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
 
