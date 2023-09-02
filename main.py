@@ -32,18 +32,21 @@ def media(window, imageData):
     imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
+
 def mediana(window, imageData):
     imageEdited = Image.fromarray(imageData)
     imageEdited = imageEdited.filter(ImageFilter.BoxBlur(1))
     imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
+
 def moda(window, imageData):
     imageEdited = Image.fromarray(imageData)
     imageEdited = imageEdited.filter(ImageFilter.ModeFilter())
     imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
+
 def gauss(window, imageData):
     imageEdited = Image.fromarray(imageData)
     imageEdited = imageEdited.filter(ImageFilter.GaussianBlur)
