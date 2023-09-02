@@ -24,6 +24,7 @@ def open(window):
       updateOriginalImage(window, imageData)
       updateEditedImage(window, imageData)
       return imageData
+    return []
 
 def media(window, imageData):
     ## To Do Média ##
