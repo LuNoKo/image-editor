@@ -28,7 +28,7 @@ def open(window):
 
 def media(window, imageData):
     imageEdited = Image.fromarray(imageData)
-    imageEdited = imageEdited.filter(ImageFilter.MedianFilter(size=3))
+    imageEdited = imageEdited.filter(ImageFilter.MedianFilter())
     imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
