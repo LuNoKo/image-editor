@@ -33,8 +33,11 @@ def media(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 def mediana(window, imageData):
-    ## To Do Mediana ##
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.filter(ImageFilter.BoxBlur(1))
+    imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
+    return imageData
 def moda(window, imageData):
     ## To Do Moda ##
     updateEditedImage(window, imageData)
