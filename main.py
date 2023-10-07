@@ -74,6 +74,12 @@ def ampliacao(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 
+def espelhamento(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.transpose(Image.FLIP_LEFT_RIGHT)
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
 def main_window():
     imageData = []
 
@@ -113,6 +119,8 @@ def main_window():
             imageData = gauss(window, imageData)
         if event == 'Ampliação':
             imageData = ampliacao(window, imageData)
+        if event == 'Espelhamento':
+            imageData = espelhamento(window, imageData)
         print(event, values)
     window.close()
 
