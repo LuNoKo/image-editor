@@ -66,13 +66,13 @@ def gauss(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 
-def save(imageData):
-    if not len(imageData) > 0:
-        errorWindow('Não existe imagem a ser salva') 
-    else:
-        filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),), no_window=True)
-        if os.path.exists(filename):
-            Image.fromarray(imageData).save(filename, format="PNG")
+def ampliacao(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    largura, altura = imageEdited.size
+    imageEdited = imageEdited.resize((largura*2,altura*2))
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
 
 def main_window():
     imageData = []
@@ -111,6 +111,8 @@ def main_window():
             imageData = moda(window, imageData)
         if event == 'Gauss':
             imageData = gauss(window, imageData)
+        if event == 'Ampliação':
+            imageData = ampliacao(window, imageData)
         print(event, values)
     window.close()
 
