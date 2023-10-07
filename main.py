@@ -17,7 +17,7 @@ def updateEditedImage(window, imageData):
     Image.fromarray(imageData).save(bio, format="PNG") 
     window["-EDITED_IMG-"].update(data=bio.getvalue())
 
-def open(window):
+def abrir(window):
     filename = sg.PopupGetFile('', no_window = True)
     if os.path.exists(filename):
         imageData = asarray(Image.open(filename))
@@ -25,6 +25,10 @@ def open(window):
         updateEditedImage(window, imageData)
         return imageData
     return []
+
+def sobre():
+    message = open("sobre.txt").read()
+    sg.Popup(message, title='Sobre', custom_text='Fechar', any_key_closes=True, keep_on_top=True)
 
 def media(window, imageData):
     imageEdited = Image.fromarray(imageData)
@@ -79,16 +83,18 @@ def main_window():
             sg.Frame('Imagem Editada', [[sg.Image(key="-EDITED_IMG-")]], element_justification='c')],
     ]
 
-    window = sg.Window(settings["GUI"]["title"], layout, use_custom_titlebar=True, element_justification='c', size=(1366,720), keep_on_top=True)
+    window = sg.Window(settings["GUI"]["title"], layout, use_custom_titlebar=True, element_justification='c', size=(1366,720))
 
     while True:
         event, values = window.read()
         if event in ('Sair', sg.WINDOW_CLOSED):
             break
         if event == 'Abrir':
-            imageData = open(window)
+            imageData = abrir(window)
         if event == 'Salvar':
             save(imageData)
+        if event == 'Sobre':
+            sobre()
         if event == 'Média':
             imageData = media(window, imageData)
         if event == 'Mediana':

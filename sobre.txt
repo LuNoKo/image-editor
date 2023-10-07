@@ -1,0 +1,7 @@
+Trabalho desenvolvido na disciplina de 
+Processamento digital de imagens da 
+universidade Feevale no segundo semestre
+de 2023.
+
+Professor: Marta Roscler Bez
+Desenvolvedor/Aluno: Lucas Nolon Kochenburger
