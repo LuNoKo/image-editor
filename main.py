@@ -69,7 +69,7 @@ def gauss(window, imageData):
 def ampliacao(window, imageData):
     imageEdited = Image.fromarray(imageData)
     largura, altura = imageEdited.size
-    imageEdited = imageEdited.resize((largura*2,altura*2))
+    imageEdited = imageEdited.resize((int(largura*1.5),int(altura*1.5)))
     imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
