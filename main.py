@@ -31,7 +31,7 @@ def save(imageData):
         errorWindow('Não existe imagem a ser salva') 
     else:
         filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),), no_window=True)
-        if os.path.exists(filename):
+        if os.path.exists(filename[:filename.rfind("/") + 1]):
             Image.fromarray(imageData).save(filename, format="PNG")
 
 def sobre():
