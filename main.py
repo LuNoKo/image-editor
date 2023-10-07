@@ -1,7 +1,7 @@
 from pathlib import Path
 import PySimpleGUI as sg
 import io, os
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageEnhance
 from numpy import asarray
 
 def errorWindow(message):
@@ -104,14 +104,36 @@ def translacao(window, imageData):
     imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
+
+def brilho(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = ImageEnhance.Brightness(imageEdited).enhance(1.5)
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
+
+def contraste(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = ImageEnhance.Contrast(imageEdited).enhance(1.5)
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
+    
+def grayScale(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.convert('L')
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
+
 def main_window():
     imageData = []
 
     menu = [
         ["  Arquivo  ", ["Abrir", "Salvar", "Sair", "Sobre"]],
-        ["  Extração De Características  ", ["Desafio"]],
-        ["  Filtros  ", ["Grayscale", "Passa Alta","Passa Baixa", ["Média", "Mediana", "Moda", "Gauss"], "Threshould"]],
-        ["  Morfologia Matemática  ", ["Abertura", "Dilatação", "Erosão", "Fechamento"]],
+        ["  Extração De Características  ", ["Desafio"]], # TODO: Desafio
+        ["  Filtros  ", ["Brilho", "Contraste", "Grayscale", "Passa Alta","Passa Baixa", ["Média", "Mediana", "Moda", "Gauss"], "Threshould"]], # TODO: Passa Alta(com submenu), Threshould
+        ["  Morfologia Matemática  ", ["Abertura", "Dilatação", "Erosão", "Fechamento"]], # TODO: Abertura, Dilatação, Erosão, Fechamento
         ["  Transformações Geométricas  ", ["Ampliação (50%)", "Espelhamento", "Redução (50%)", "Rotação (180°)", "Translação (10%)"]]
     ]
 
@@ -151,6 +173,12 @@ def main_window():
             imageData = rotacao(window, imageData)
         if event == 'Translação (10%)':
             imageData = translacao(window, imageData)
+        if event == "Brilho":
+            imageData = brilho(window, imageData)
+        if event == "Contraste":
+            imageData = contraste(window, imageData)
+        if event == "Grayscale":
+            imageData = grayScale(window, imageData)
         print(event, values)
     window.close()
 
