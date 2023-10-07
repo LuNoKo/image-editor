@@ -80,6 +80,15 @@ def espelhamento(window, imageData):
     imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
+
+def reducao(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    largura, altura = imageEdited.size
+    imageEdited = imageEdited.resize((int(largura*0.5),int(altura*0.5)))
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
+
 def main_window():
     imageData = []
 
@@ -88,7 +97,7 @@ def main_window():
         ["  Extração De Características  ", ["Desafio"]],
         ["  Filtros  ", ["Grayscale", "Passa Alta","Passa Baixa", ["Média", "Mediana", "Moda", "Gauss"], "Threshould"]],
         ["  Morfologia Matemática  ", ["Abertura", "Dilatação", "Erosão", "Fechamento"]],
-        ["  Transformações Geométricas  ", ["Ampliação", "Espelhamento", "Redução", "Rotação", "Translação"]]
+        ["  Transformações Geométricas  ", ["Ampliação (50%)", "Espelhamento", "Redução (50%)", "Rotação (180°)", "Translação (10%)"]]
     ]
 
     layout = [
@@ -121,6 +130,8 @@ def main_window():
             imageData = ampliacao(window, imageData)
         if event == 'Espelhamento':
             imageData = espelhamento(window, imageData)
+        if event == 'Redução (50%)':
+            imageData = reducao(window, imageData)
         print(event, values)
     window.close()
 
