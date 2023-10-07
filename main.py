@@ -26,6 +26,14 @@ def abrir(window):
         return imageData
     return []
 
+def save(imageData):
+    if not len(imageData) > 0:
+        errorWindow('Não existe imagem a ser salva') 
+    else:
+        filename = sg.popup_get_file('',save_as=True, file_types=(("PNG Files", "*.png"),), no_window=True)
+        if os.path.exists(filename):
+            Image.fromarray(imageData).save(filename, format="PNG")
+
 def sobre():
     message = open("sobre.txt").read()
     sg.Popup(message, title='Sobre', custom_text='Fechar', any_key_closes=True, keep_on_top=True)
