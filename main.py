@@ -95,6 +95,15 @@ def rotacao(window, imageData):
     imageData = asarray(imageEdited)
     updateEditedImage(window, imageData)
     return imageData
+
+def translacao(window, imageData):
+    image = Image.fromarray(imageData)
+    largura, altura = image.size
+    imageEdited = Image.new('RGB', image.size)
+    imageEdited.paste(image, (int(largura*0.1),int(altura*0.1)))
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
 def main_window():
     imageData = []
 
@@ -132,7 +141,7 @@ def main_window():
             imageData = moda(window, imageData)
         if event == 'Gauss':
             imageData = gauss(window, imageData)
-        if event == 'Ampliação':
+        if event == 'Ampliação (50%)':
             imageData = ampliacao(window, imageData)
         if event == 'Espelhamento':
             imageData = espelhamento(window, imageData)
@@ -140,6 +149,8 @@ def main_window():
             imageData = reducao(window, imageData)
         if event == 'Rotação (180°)':
             imageData = rotacao(window, imageData)
+        if event == 'Translação (10%)':
+            imageData = translacao(window, imageData)
         print(event, values)
     window.close()
 
