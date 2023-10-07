@@ -89,6 +89,12 @@ def reducao(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 
+def rotacao(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.rotate(180)
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
 def main_window():
     imageData = []
 
@@ -132,6 +138,8 @@ def main_window():
             imageData = espelhamento(window, imageData)
         if event == 'Redução (50%)':
             imageData = reducao(window, imageData)
+        if event == 'Rotação (180°)':
+            imageData = rotacao(window, imageData)
         print(event, values)
     window.close()
 
