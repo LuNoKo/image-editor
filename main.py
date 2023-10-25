@@ -126,6 +126,21 @@ def grayScale(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 
+def erosao(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.filter(ImageFilter.MinFilter(3))
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
+
+
+def dilatacao(window, imageData):
+    imageEdited = Image.fromarray(imageData)
+    imageEdited = imageEdited.filter(ImageFilter.MaxFilter(3))
+    imageData = asarray(imageEdited)
+    updateEditedImage(window, imageData)
+    return imageData
+
 def main_window():
     imageData = []
 
@@ -133,7 +148,7 @@ def main_window():
         ["  Arquivo  ", ["Abrir", "Salvar", "Sair", "Sobre"]],
         ["  Extração De Características  ", ["Desafio"]], # TODO: Desafio
         ["  Filtros  ", ["Brilho", "Contraste", "Grayscale", "Passa Alta","Passa Baixa", ["Média", "Mediana", "Moda", "Gauss"], "Threshould"]], # TODO: Passa Alta(com submenu), Threshould
-        ["  Morfologia Matemática  ", ["Abertura", "Dilatação", "Erosão", "Fechamento"]], # TODO: Abertura, Dilatação, Erosão, Fechamento
+        ["  Morfologia Matemática  ", ["Abertura", "Dilatação", "Erosão", "Fechamento"]], # TODO: Abertura, Fechamento
         ["  Transformações Geométricas  ", ["Ampliação (50%)", "Espelhamento", "Redução (50%)", "Rotação (180°)", "Translação (10%)"]]
     ]
 
@@ -179,6 +194,10 @@ def main_window():
             imageData = contraste(window, imageData)
         if event == "Grayscale":
             imageData = grayScale(window, imageData)
+        if event == "Erosão":
+            imageData = erosao(window, imageData)
+        if event == "Dilatação":
+            imageData = dilatacao(window, imageData)
         print(event, values)
     window.close()
 
