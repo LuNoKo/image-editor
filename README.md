@@ -6,4 +6,9 @@ front end not basead yet -> https://www.youtube.com/watch?v=Ol3n_BR4v70&ab_chann
 Accessing data from image -> https://www.pluralsight.com/guides/importing-image-data-into-numpy-arrays
 
 Version of python -> 3.7.8
-install -> pip install PySimpleGUI Pillow numpy
+install -> pip install PySimpleGUI Pillow numpy opencv-python pytesseract
+
+https://stackoverflow.com/questions/69557079/how-to-find-numbers-in-images-and-read-them
+https://github.com/UB-Mannheim/tesseract/wiki
+https://stackoverflow.com/questions/50951955/pytesseract-tesseractnotfound-error-tesseract-is-not-installed-or-its-not-i
+https://pypi.org/project/pytesseract/

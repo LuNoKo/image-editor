@@ -3,6 +3,8 @@ import PySimpleGUI as sg
 import io, os
 from PIL import Image, ImageFilter, ImageEnhance
 from numpy import asarray
+import cv2
+import pytesseract
 
 def errorWindow(message):
     sg.Popup(message, title='Erro', auto_close=True, custom_text='Fechar', any_key_closes=True, keep_on_top=True)
@@ -141,6 +143,20 @@ def dilatacao(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 
+def desafio(window, imageData):
+    # imageEdited = Image.fromarray(imageData)
+    # imageEdited = imageEdited.filter(ImageFilter.MaxFilter(3))
+    # imageData = asarray(imageEdited)
+
+    pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+
+    # gray = cv2.cvtColor(imageData, cv2.COLOR_BGR2GRAY)
+    text = pytesseract.image_to_string(imageData)
+    print(text)
+
+
+    return imageData
+
 def main_window():
     imageData = []
 
@@ -198,6 +214,8 @@ def main_window():
             imageData = erosao(window, imageData)
         if event == "Dilatação":
             imageData = dilatacao(window, imageData)
+        if event == "Desafio":
+            imageData = desafio(window, imageData)
         print(event, values)
     window.close()
 
