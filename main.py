@@ -1,10 +1,11 @@
 from pathlib import Path
 import PySimpleGUI as sg
 import io, os
-from PIL import Image, ImageFilter, ImageEnhance
+from PIL import Image, ImageFilter, ImageEnhance, ImageDraw, ImageOps
 from numpy import asarray
-import cv2
 import pytesseract
+
+caminho_instalacao_tesseract_windows = "C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 def errorWindow(message):
     sg.Popup(message, title='Erro', auto_close=True, custom_text='Fechar', any_key_closes=True, keep_on_top=True)
@@ -143,26 +144,80 @@ def dilatacao(window, imageData):
     updateEditedImage(window, imageData)
     return imageData
 
-def desafio(window, imageData):
-    # imageEdited = Image.fromarray(imageData)
-    # imageEdited = imageEdited.filter(ImageFilter.MaxFilter(3))
-    # imageData = asarray(imageEdited)
+def desafioWindow():
+    numero1 = 0
+    operador = ''
+    numero2 = 0
+    pytesseract.pytesseract.tesseract_cmd = caminho_instalacao_tesseract_windows
 
-    pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+    layout = [
+        [sg.Text("Desafio")],
+        [sg.Text("Selecione os dois numeros e o operador, após isso clique em gerar resultado:")],
+        [sg.Text("**As imagens foram enviadas juntamente neste projeto")],
+        [sg.Text("Primeiro número:      "), sg.InputText(key="numero1", size = (10,10), disabled = True), sg.Text("     "), sg.Button("Numero 1")],
+        [sg.Text("Operador:                  "), sg.InputText(key="operador", size = (10,10), disabled = True), sg.Text("     "), sg.Button("Operador")],
+        [sg.Text("Segundo número:     "), sg.InputText(key="numero2", size = (10,10), disabled = True), sg.Text("     "), sg.Button("Numero 2")],
+        [sg.Text("Resultado:                 "), sg.InputText(key="resultado", size = (10,10), disabled = True), sg.Text("     "), sg.Button("Gerar resultado")]
+    ]
 
-    # gray = cv2.cvtColor(imageData, cv2.COLOR_BGR2GRAY)
-    text = pytesseract.image_to_string(imageData)
-    print(text)
+    window2 = sg.Window("Segunda Tela", layout)
+
+    while True:
+        event, values = window2.read()
+        if event == sg.WINDOW_CLOSED or event == "Voltar para a Tela Principal":
+            window2.close()
+            return
+        if event == "Numero 1":
+            filename = sg.PopupGetFile('', no_window = True)
+            if os.path.exists(filename):
+                numero1 = desafioLerImagem(filename, False)
+            window2["numero1"].update(value=numero1)
+        if event == "Operador":
+            filename = sg.PopupGetFile('', no_window = True)
+            if os.path.exists(filename):
+                operador = desafioLerImagem(filename, True)
+            window2["operador"].update(value=operador)
+        if event == "Numero 2":
+            filename = sg.PopupGetFile('', no_window = True)
+            if os.path.exists(filename):
+                numero2 = desafioLerImagem(filename, False)
+            window2["numero2"].update(value=numero2)
+        if event == "Gerar resultado":
+            resultado = desafioGerarResultado(numero1, operador, numero2)
+            window2["resultado"].update(value=resultado)
 
 
-    return imageData
+def desafioLerImagem (caminho, operador):
+    imagem = Image.open(caminho)
+    imagem = imagem.convert('L')
+    caractere = pytesseract.image_to_string(imagem, config='--psm 8', lang='eng').strip()
+    
+    if(operador and caractere in ["/","+","*","-"]):
+        return pytesseract.image_to_string(imagem, config='--psm 8', lang='eng').strip()
+    
+    if (not operador and caractere in ["0","1","2","3","4","5","6","7","8","9"]):
+        return int(pytesseract.image_to_string(imagem, config='--psm 8', lang='eng').strip())
+
+    return
+
+def desafioGerarResultado(numero1, operador, numero2):
+    resultado = 0
+    if(operador == "+"):
+        resultado = numero1 + numero2
+    elif(operador == "-"):
+        resultado = numero1 - numero2
+    elif(operador == "/"):
+        resultado = numero1 / numero2
+    elif(operador == "*"):
+        resultado = numero1 * numero2
+    return resultado
 
 def main_window():
     imageData = []
 
     menu = [
         ["  Arquivo  ", ["Abrir", "Salvar", "Sair", "Sobre"]],
-        ["  Extração De Características  ", ["Desafio"]], # TODO: Desafio
+        ["  Extração De Características  ", ["Desafio"]],
         ["  Filtros  ", ["Brilho", "Contraste", "Grayscale", "Passa Alta","Passa Baixa", ["Média", "Mediana", "Moda", "Gauss"], "Threshould"]], # TODO: Passa Alta(com submenu), Threshould
         ["  Morfologia Matemática  ", ["Abertura", "Dilatação", "Erosão", "Fechamento"]], # TODO: Abertura, Fechamento
         ["  Transformações Geométricas  ", ["Ampliação (50%)", "Espelhamento", "Redução (50%)", "Rotação (180°)", "Translação (10%)"]]
@@ -215,8 +270,7 @@ def main_window():
         if event == "Dilatação":
             imageData = dilatacao(window, imageData)
         if event == "Desafio":
-            imageData = desafio(window, imageData)
-        print(event, values)
+            desafioWindow()
     window.close()
 
 # Aplica estilização #
