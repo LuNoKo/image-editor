@@ -5,7 +5,7 @@ from PIL import Image, ImageFilter, ImageEnhance, ImageDraw, ImageOps
 from numpy import asarray
 import pytesseract
 
-caminho_instalacao_tesseract_windows = "C:\Program Files\Tesseract-OCR\tesseract.exe"
+caminho_instalacao_tesseract_windows = "C:\Program Files\Tesseract-OCR\\tesseract.exe"
 
 def errorWindow(message):
     sg.Popup(message, title='Erro', auto_close=True, custom_text='Fechar', any_key_closes=True, keep_on_top=True)
